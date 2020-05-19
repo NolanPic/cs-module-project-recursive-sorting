@@ -7,26 +7,48 @@ def merge(arrA, arrB):
     a_pointer = 0
     # the pointer for arrB
     b_pointer = 0
+    # denotes that the a pointer is at the end
+    a_done = False
+    # denotes that the b pointer is at the end
+    b_done = False
     
     for i in range(len(merged_arr)):
-        if arrA[a_pointer] < arrB[b_pointer] or b_pointer is -1:
-            # A is smaller and should be added next
-            merged_arr[i] = arrA[a_pointer]
-            # increment a's pointer only if it still
-            # has more elements
-            if a_pointer < len(arrA) -1:
-                a_pointer +=1
+        # if either a or b is at their end, skip this
+        if not a_done and not b_done:
+            if arrA[a_pointer] < arrB[b_pointer]:
+                # A is smaller and should be added next
+                merged_arr[i] = arrA[a_pointer]
+                # increment a's pointer only if it still
+                # has more elements
+                if a_pointer < len(arrA) -1:
+                    a_pointer +=1
+                else:
+                    a_done = True
             else:
-                a_pointer = -1
+                # B is smaller and should be added next
+                merged_arr[i] = arrB[b_pointer]
+                # increment b's pointer only if it still
+                # has more elements
+                if b_pointer < len(arrB) - 1:
+                    b_pointer +=1
+                else:
+                    b_done = True
         else:
-            # B is smaller and should be added next
-            merged_arr[i] = arrB[b_pointer]
-            # increment b's pointer only if it still
-            # has more elements
-            if b_pointer < len(arrB) - 1:
-                b_pointer +=1
-            else:
-                b_pointer = -1
+            if not a_done:
+                merged_arr[i] = arrA[a_pointer]
+                if a_pointer < len(arrA) -1:
+                    a_pointer +=1
+                else:
+                    a_done = True
+            if not b_done:
+                 # B is smaller and should be added next
+                merged_arr[i] = arrB[b_pointer]
+                # increment b's pointer only if it still
+                # has more elements
+                if b_pointer < len(arrB) - 1:
+                    b_pointer +=1
+                else:
+                    b_done = True
 
     return merged_arr
 
@@ -44,7 +66,7 @@ def merge_sort(arr):
     
     return merge(merge_sort(left), merge_sort(right))
 
-print(merge_sort([10, 2, 7, 5, 16, 3]))
+print(merge_sort([10, 2, 7, 20, 5, 16, 3, 102, 98]))
 
 # implement an in-place merge sort algorithm
 def merge_in_place(arr, start, mid, end):
